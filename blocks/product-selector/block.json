@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "epdc/product-selector",
+	"version": "0.1.0",
+	"title": "EPDC Product Selector",
+	"category": "widgets",
+	"icon": "products",
+	"description": "Dynamic product selector scaffold block.",
+	"textdomain": "epdc-product-selector",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "epdc-product-selector-frontend",
+	"render": "file:./render.php",
+	"supports": {
+		"html": false,
+		"interactivity": true
+	}
+}
