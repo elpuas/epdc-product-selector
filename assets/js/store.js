@@ -2,23 +2,33 @@ import { store } from '@wordpress/interactivity';
 
 const NAMESPACE = 'epdc/productSelector';
 const STORAGE_KEY = 'epdc_product_selector_items';
+const CARD_HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6';
+const CARD_CONTAINER_SELECTOR =
+	'[data-epdc-product-card], .epdc-product-card, .product, article, li, .wp-block-group';
+
+const slugify = ( value ) =>
+	String( value )
+		.toLowerCase()
+		.trim()
+		.replace( /[^a-z0-9\s-]/g, '' )
+		.replace( /\s+/g, '-' )
+		.replace( /-+/g, '-' );
 
 const normalizeItem = ( item ) => {
 	if ( ! item || 'object' !== typeof item ) {
 		return null;
 	}
 
-	const id = Number.parseInt( item.id, 10 );
+	const name = item.name ? String( item.name ).trim() : '';
+	const id = item.id ? slugify( item.id ) : slugify( name );
 
-	if ( ! Number.isInteger( id ) || id <= 0 ) {
+	if ( ! name || ! id ) {
 		return null;
 	}
 
 	return {
 		id,
-		name: item.name ? String( item.name ) : '',
-		sku: item.sku ? String( item.sku ) : '',
-		url: item.url ? String( item.url ) : '',
+		name,
 	};
 };
 
@@ -68,6 +78,23 @@ const writeStorageItems = ( items ) => {
 	}
 };
 
+const findClosestCardHeading = ( sourceElement ) => {
+	if ( ! sourceElement || 'function' !== typeof sourceElement.closest ) {
+		return '';
+	}
+
+	const cardContainer = sourceElement.closest( CARD_CONTAINER_SELECTOR );
+	const headingElement = cardContainer
+		? cardContainer.querySelector( CARD_HEADING_SELECTOR )
+		: null;
+
+	if ( ! headingElement ) {
+		return '';
+	}
+
+	return headingElement.textContent ? headingElement.textContent.trim() : '';
+};
+
 const { state, actions } = store( NAMESPACE, {
 	state: {
 		selectedItems: [],
@@ -76,26 +103,30 @@ const { state, actions } = store( NAMESPACE, {
 			return state.selectedItems.length;
 		},
 		hasItem( itemId ) {
-			const normalizedId = Number.parseInt( itemId, 10 );
+			const normalizedId = slugify( itemId );
 
-			if ( ! Number.isInteger( normalizedId ) || normalizedId <= 0 ) {
+			if ( ! normalizedId ) {
 				return false;
 			}
 
 			return state.selectedItems.some( ( item ) => item.id === normalizedId );
 		},
 		get inquiryPayload() {
+			if ( 0 === state.selectedItems.length ) {
+				return '';
+			}
+
 			return state.selectedItems
-				.map( ( item ) => {
-					const title = item.name || `#${ item.id }`;
-					return `${ title } [${ item.id }]`;
-				} )
-				.join( ', ' );
+				.map( ( item ) => `- ${ item.name }` )
+				.join( '\n' )
+				.replace( /^/, 'Productos de interés:\n\n' );
 		},
 	},
 	actions: {
-		addItem( item ) {
-			const normalizedItem = normalizeItem( item );
+		addItemFromCard( event ) {
+			const sourceElement = event?.currentTarget || event?.target || null;
+			const headingText = findClosestCardHeading( sourceElement );
+			const normalizedItem = normalizeItem( { name: headingText } );
 
 			if ( ! normalizedItem || state.hasItem( normalizedItem.id ) ) {
 				return;
@@ -105,9 +136,9 @@ const { state, actions } = store( NAMESPACE, {
 			actions.persistToStorage();
 		},
 		removeItem( itemId ) {
-			const normalizedId = Number.parseInt( itemId, 10 );
+			const normalizedId = slugify( itemId );
 
-			if ( ! Number.isInteger( normalizedId ) || normalizedId <= 0 ) {
+			if ( ! normalizedId ) {
 				return;
 			}
 
