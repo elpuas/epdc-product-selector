@@ -18,19 +18,29 @@ class EPDC_Asset_Registrar {
 	 */
 	public function register( EPDC_Plugin_Loader $loader ): void {
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_assets' );
+		$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_store_module' );
 	}
 
 	/**
 	 * Register scaffold assets for future feature modules.
 	 */
 	public function register_assets(): void {
-		wp_register_script(
-			'epdc-product-selector-store',
-			EPDC_PRODUCT_SELECTOR_URL . 'assets/js/store.js',
-			[],
-			EPDC_PRODUCT_SELECTOR_VERSION,
-			true
-		);
+		if ( function_exists( 'wp_register_script_module' ) ) {
+			wp_register_script_module(
+				'epdc-product-selector-store',
+				EPDC_PRODUCT_SELECTOR_URL . 'assets/js/store.js',
+				[ '@wordpress/interactivity' ],
+				EPDC_PRODUCT_SELECTOR_VERSION
+			);
+		} else {
+			wp_register_script(
+				'epdc-product-selector-store',
+				EPDC_PRODUCT_SELECTOR_URL . 'assets/js/store.js',
+				[],
+				EPDC_PRODUCT_SELECTOR_VERSION,
+				true
+			);
+		}
 
 		wp_register_script(
 			'epdc-product-selector-form',
@@ -46,5 +56,17 @@ class EPDC_Asset_Registrar {
 			[],
 			EPDC_PRODUCT_SELECTOR_VERSION
 		);
+	}
+
+	/**
+	 * Enqueue the Interactivity API store module on the frontend.
+	 */
+	public function enqueue_store_module(): void {
+		if ( function_exists( 'wp_enqueue_script_module' ) ) {
+			wp_enqueue_script_module( 'epdc-product-selector-store' );
+			return;
+		}
+
+		wp_enqueue_script( 'epdc-product-selector-store' );
 	}
 }
