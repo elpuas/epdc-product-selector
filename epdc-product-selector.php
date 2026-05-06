@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: EPDC Product Selector
- * Plugin URI:  https://example.com
+ * Plugin URI:  https://github.com/elpuas/epdc-product-selector
  * Description: Product inquiry selection scaffold for catalog-based WordPress websites.
  * Version:     0.1.0
- * Author:      EPDC
+ * Author:      ElPuas Digital Crafts
  * Text Domain: epdc-product-selector
  * Domain Path: /languages
  *
