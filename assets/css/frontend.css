@@ -1,0 +1,10 @@
+.epdc-product-selector-block {
+	display: block;
+}
+
+#epdc-product-selector-widget {
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	z-index: 9999;
+}
