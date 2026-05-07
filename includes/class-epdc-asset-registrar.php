@@ -19,6 +19,7 @@ class EPDC_Asset_Registrar {
 	public function register( EPDC_Plugin_Loader $loader ): void {
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_assets' );
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_store_module' );
+		$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_frontend_style' );
 	}
 
 	/**
@@ -68,5 +69,12 @@ class EPDC_Asset_Registrar {
 		}
 
 		wp_enqueue_script( 'epdc-product-selector-store' );
+	}
+
+	/**
+	 * Enqueue frontend styles for block and floating widget.
+	 */
+	public function enqueue_frontend_style(): void {
+		wp_enqueue_style( 'epdc-product-selector-frontend' );
 	}
 }
