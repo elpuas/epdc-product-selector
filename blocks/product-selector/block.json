@@ -6,12 +6,18 @@
 	"title": "EPDC Product Selector",
 	"category": "widgets",
 	"icon": "products",
-	"description": "Dynamic product selector scaffold block.",
+	"description": "Dynamic product selector block.",
 	"textdomain": "epdc-product-selector",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./editor.css",
 	"style": "epdc-product-selector-frontend",
 	"render": "file:./render.php",
+	"attributes": {
+		"buttonLabel": {
+			"type": "string",
+			"default": "Agregar a Cotización"
+		}
+	},
 	"supports": {
 		"html": false,
 		"interactivity": true
