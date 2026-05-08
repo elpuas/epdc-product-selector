@@ -2,6 +2,7 @@ import { store } from '@wordpress/interactivity';
 
 const NAMESPACE = 'epdc/productSelector';
 const STORAGE_KEY = 'epdc_product_selector_items';
+const INQUIRY_TRANSFER_EVENT = 'epdcProductSelector:inquiryTransferComplete';
 const EPDC_CONFIG =
 	'undefined' !== typeof window && window.EPDCProductSelectorConfig
 		? window.EPDCProductSelectorConfig
@@ -191,3 +192,13 @@ const { state, actions } = store( NAMESPACE, {
 } );
 
 actions.hydrateFromStorage();
+
+if ( 'undefined' !== typeof window ) {
+	window.addEventListener( INQUIRY_TRANSFER_EVENT, () => {
+		if ( 0 === state.selectedItems.length ) {
+			return;
+		}
+
+		actions.clearItems();
+	} );
+}
