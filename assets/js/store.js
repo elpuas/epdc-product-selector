@@ -2,6 +2,10 @@ import { store } from '@wordpress/interactivity';
 
 const NAMESPACE = 'epdc/productSelector';
 const STORAGE_KEY = 'epdc_product_selector_items';
+const EPDC_CONFIG =
+	'undefined' !== typeof window && window.EPDCProductSelectorConfig
+		? window.EPDCProductSelectorConfig
+		: {};
 const CARD_HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6';
 const CARD_CONTAINER_SELECTOR =
 	'[data-epdc-product-card], .epdc-product-card, .product, article, li, .wp-block-group';
@@ -161,6 +165,15 @@ const { state, actions } = store( NAMESPACE, {
 		openInquiryPlaceholder() {
 			if ( 0 === state.itemCount ) {
 				return;
+			}
+
+			const inquiryUrl =
+				'string' === typeof EPDC_CONFIG.inquiryUrl
+					? EPDC_CONFIG.inquiryUrl.trim()
+					: '';
+
+			if ( inquiryUrl ) {
+				window.location.href = inquiryUrl;
 			}
 		},
 		hydrateFromStorage() {

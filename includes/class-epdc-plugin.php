@@ -34,11 +34,15 @@ class EPDC_Plugin {
 		$block_registrar = new EPDC_Block_Registrar();
 		$widget_registrar = new EPDC_Widget_Registrar();
 		$form_integrator = new EPDC_Inquiry_Form_Integrator();
+		$settings_page = new EPDC_Settings_Page();
+		$frontend_config = new EPDC_Frontend_Config();
 
 		$asset_registrar->register( $this->loader );
 		$block_registrar->register( $this->loader );
 		$widget_registrar->register( $this->loader );
 		$form_integrator->register( $this->loader );
+		$settings_page->register( $this->loader );
+		$frontend_config->register( $this->loader );
 	}
 
 	/**

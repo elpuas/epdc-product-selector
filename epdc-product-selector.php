@@ -36,6 +36,9 @@ require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-asset-registrar.p
 require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-block-registrar.php';
 require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-widget-registrar.php';
 require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-inquiry-form-integrator.php';
+require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-settings.php';
+require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-settings-page.php';
+require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-frontend-config.php';
 require_once EPDC_PRODUCT_SELECTOR_PATH . 'includes/class-epdc-plugin.php';
 
 add_action(
