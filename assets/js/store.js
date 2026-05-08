@@ -99,7 +99,9 @@ const { state, actions } = store( NAMESPACE, {
 	state: {
 		selectedItems: [],
 		isHydrated: false,
-		isExpanded: false,
+		get hasItems() {
+			return state.selectedItems.length > 0;
+		},
 		get itemCount() {
 			return state.selectedItems.length;
 		},
@@ -134,7 +136,6 @@ const { state, actions } = store( NAMESPACE, {
 			}
 
 			state.selectedItems = [ ...state.selectedItems, normalizedItem ];
-			state.isExpanded = true;
 			actions.persistToStorage();
 		},
 		removeItem( itemId ) {
@@ -147,11 +148,6 @@ const { state, actions } = store( NAMESPACE, {
 			state.selectedItems = state.selectedItems.filter(
 				( item ) => item.id !== normalizedId
 			);
-
-			if ( 0 === state.selectedItems.length ) {
-				state.isExpanded = false;
-			}
-
 			actions.persistToStorage();
 		},
 		removeItemFromEvent( event ) {
@@ -160,22 +156,12 @@ const { state, actions } = store( NAMESPACE, {
 		},
 		clearItems() {
 			state.selectedItems = [];
-			state.isExpanded = false;
 			actions.persistToStorage();
 		},
-		toggleWidget() {
+		openInquiryPlaceholder() {
 			if ( 0 === state.itemCount ) {
 				return;
 			}
-
-			state.isExpanded = ! state.isExpanded;
-		},
-		openInquiryPlaceholder() {
-			if ( 0 === state.itemCount || 'undefined' === typeof window ) {
-				return;
-			}
-
-			window.location.hash = 'epdc-inquiry';
 		},
 		hydrateFromStorage() {
 			if ( state.isHydrated ) {
@@ -184,7 +170,6 @@ const { state, actions } = store( NAMESPACE, {
 
 			state.selectedItems = readStorageItems();
 			state.isHydrated = true;
-			state.isExpanded = state.selectedItems.length > 0;
 		},
 		persistToStorage() {
 			writeStorageItems( state.selectedItems );

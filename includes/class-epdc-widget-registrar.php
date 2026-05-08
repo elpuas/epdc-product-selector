@@ -25,22 +25,22 @@ class EPDC_Widget_Registrar {
 	 */
 	public function render_widget(): void {
 		$toggle_label = esc_html__( 'Seleccionados', 'epdc-product-selector' );
-		$empty_label  = esc_html__( 'Sin productos', 'epdc-product-selector' );
+		$empty_label  = esc_html__( 'No hay productos seleccionados', 'epdc-product-selector' );
 		$list_label   = esc_html__( 'Productos seleccionados', 'epdc-product-selector' );
 		$clear_label  = esc_html__( 'Limpiar', 'epdc-product-selector' );
-		$cta_label    = esc_html__( 'Continuar Cotización', 'epdc-product-selector' );
+		$cta_label    = esc_html__( 'Solicitar Cotización', 'epdc-product-selector' );
 		$remove_label = esc_html__( 'Quitar', 'epdc-product-selector' );
 
 		$markup = '
 		<div id="epdc-product-selector-widget" class="epdc-inquiry-widget" data-wp-interactive="epdc/productSelector">
-			<button type="button" class="epdc-inquiry-widget__toggle" data-wp-on--click="actions.toggleWidget" data-wp-bind--aria-expanded="state.isExpanded" data-wp-bind--disabled="!state.itemCount">
+			<button type="button" class="epdc-inquiry-widget__toggle" data-wp-bind--aria-expanded="state.hasItems" data-wp-bind--disabled="!state.hasItems">
 				<span class="epdc-inquiry-widget__label">' . $toggle_label . '</span>
 				<span class="epdc-inquiry-widget__count" data-wp-text="state.itemCount">0</span>
 			</button>
-			<div class="epdc-inquiry-widget__empty" data-wp-bind--hidden="state.itemCount">
+			<div class="epdc-inquiry-widget__empty" data-wp-bind--hidden="state.hasItems">
 				' . $empty_label . '
 			</div>
-			<section class="epdc-inquiry-widget__panel" data-wp-bind--hidden="!state.itemCount || !state.isExpanded">
+			<section class="epdc-inquiry-widget__panel" data-wp-bind--hidden="!state.hasItems">
 				<h3 class="epdc-inquiry-widget__title">' . $list_label . '</h3>
 				<ul class="epdc-inquiry-widget__list">
 					<template data-wp-each="state.selectedItems">
@@ -51,8 +51,8 @@ class EPDC_Widget_Registrar {
 					</template>
 				</ul>
 				<div class="epdc-inquiry-widget__actions">
-					<button type="button" class="epdc-inquiry-widget__clear" data-wp-on--click="actions.clearItems">' . $clear_label . '</button>
-					<button type="button" class="epdc-inquiry-widget__cta" data-wp-on--click="actions.openInquiryPlaceholder">' . $cta_label . '</button>
+					<button type="button" class="epdc-inquiry-widget__clear" data-wp-on--click="actions.clearItems" data-wp-bind--disabled="!state.hasItems">' . $clear_label . '</button>
+					<button type="button" class="epdc-inquiry-widget__cta" data-wp-on--click="actions.openInquiryPlaceholder" data-wp-bind--disabled="!state.hasItems">' . $cta_label . '</button>
 				</div>
 			</section>
 		</div>';
