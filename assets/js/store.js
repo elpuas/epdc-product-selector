@@ -104,8 +104,15 @@ const { state, actions } = store( NAMESPACE, {
 	state: {
 		selectedItems: [],
 		isHydrated: false,
+		isOpen: false,
 		get hasItems() {
 			return state.selectedItems.length > 0;
+		},
+		get showPanel() {
+			return state.isOpen && state.hasItems;
+		},
+		get showEmptyState() {
+			return state.isOpen && ! state.hasItems;
 		},
 		get itemCount() {
 			return state.selectedItems.length;
@@ -141,7 +148,17 @@ const { state, actions } = store( NAMESPACE, {
 			}
 
 			state.selectedItems = [ ...state.selectedItems, normalizedItem ];
+			actions.openWidget();
 			actions.persistToStorage();
+		},
+		toggleWidget() {
+			state.isOpen = ! state.isOpen;
+		},
+		openWidget() {
+			state.isOpen = true;
+		},
+		closeWidget() {
+			state.isOpen = false;
 		},
 		removeItem( itemId ) {
 			const normalizedId = slugify( itemId );

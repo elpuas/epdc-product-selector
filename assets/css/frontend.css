@@ -30,11 +30,6 @@
 	cursor: pointer;
 }
 
-.epdc-inquiry-widget__toggle[disabled] {
-	opacity: 0.75;
-	cursor: default;
-}
-
 .epdc-inquiry-widget__count {
 	display: inline-flex;
 	align-items: center;
