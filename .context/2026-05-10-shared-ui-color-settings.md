@@ -62,4 +62,4 @@ Defaults are defined in frontend CSS and runtime values are injected globally fr
 
 ## Commit Hash
 
-`PENDING`
+`d0dd99b`
