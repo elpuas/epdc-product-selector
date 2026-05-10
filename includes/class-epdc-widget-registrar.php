@@ -33,14 +33,14 @@ class EPDC_Widget_Registrar {
 
 		$markup = '
 		<div id="epdc-product-selector-widget" class="epdc-inquiry-widget" data-wp-interactive="epdc/productSelector">
-			<button type="button" class="epdc-inquiry-widget__toggle" data-wp-bind--aria-expanded="state.hasItems" data-wp-bind--disabled="!state.hasItems">
+			<button type="button" class="epdc-inquiry-widget__toggle" data-wp-on--click="actions.toggleWidget" data-wp-bind--aria-expanded="state.isOpen" aria-controls="epdc-inquiry-widget-panel">
 				<span class="epdc-inquiry-widget__label">' . $toggle_label . '</span>
 				<span class="epdc-inquiry-widget__count" data-wp-text="state.itemCount">0</span>
 			</button>
-			<div class="epdc-inquiry-widget__empty" data-wp-bind--hidden="state.hasItems">
+			<div class="epdc-inquiry-widget__empty" data-wp-bind--hidden="!state.showEmptyState">
 				' . $empty_label . '
 			</div>
-			<section class="epdc-inquiry-widget__panel" data-wp-bind--hidden="!state.hasItems">
+			<section id="epdc-inquiry-widget-panel" class="epdc-inquiry-widget__panel" data-wp-bind--hidden="!state.showPanel">
 				<h3 class="epdc-inquiry-widget__title">' . $list_label . '</h3>
 				<ul class="epdc-inquiry-widget__list">
 					<template data-wp-each="state.selectedItems">
