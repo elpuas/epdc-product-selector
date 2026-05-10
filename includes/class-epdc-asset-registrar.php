@@ -20,6 +20,7 @@ class EPDC_Asset_Registrar {
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_assets' );
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_store_module' );
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_frontend_style' );
+		$loader->add_action( 'wp_enqueue_scripts', $this, 'inject_frontend_design_tokens' );
 	}
 
 	/**
@@ -76,5 +77,20 @@ class EPDC_Asset_Registrar {
 	 */
 	public function enqueue_frontend_style(): void {
 		wp_enqueue_style( 'epdc-product-selector-frontend' );
+	}
+
+	/**
+	 * Inject global frontend CSS variables from plugin settings.
+	 */
+	public function inject_frontend_design_tokens(): void {
+		if ( ! wp_style_is( 'epdc-product-selector-frontend', 'enqueued' ) ) {
+			return;
+		}
+
+		$primary_color      = EPDC_Settings::get_primary_color();
+		$primary_text_color = EPDC_Settings::get_primary_text_color();
+
+		$inline_css = ':root{--epdc-primary:' . esc_html( $primary_color ) . ';--epdc-primary-text:' . esc_html( $primary_text_color ) . ';}';
+		wp_add_inline_style( 'epdc-product-selector-frontend', $inline_css );
 	}
 }
