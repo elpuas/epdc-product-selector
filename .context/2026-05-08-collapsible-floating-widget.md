@@ -59,4 +59,4 @@ Implement collapsible/minimizable behavior for the EPDC Product Selector floatin
 	- verified localStorage logic remains scoped to `selectedItems` only (no `isOpen` persistence)
 
 ## Commit Hash
-`PENDING`
+`d32736d`
