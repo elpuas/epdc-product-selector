@@ -93,6 +93,8 @@ class EPDC_Settings {
 
 	/**
 	 * Get inquiry page ID.
+	 *
+	 * @return int
 	 */
 	public static function get_inquiry_page_id(): int {
 		$options = self::get_options();
@@ -102,6 +104,8 @@ class EPDC_Settings {
 
 	/**
 	 * Get inquiry page URL.
+	 *
+	 * @return string
 	 */
 	public static function get_inquiry_page_url(): string {
 		$page_id = self::get_inquiry_page_id();
@@ -117,6 +121,8 @@ class EPDC_Settings {
 
 	/**
 	 * Get configured inquiry field selector.
+	 *
+	 * @return string
 	 */
 	public static function get_inquiry_field_selector(): string {
 		$options = self::get_options();
@@ -126,6 +132,8 @@ class EPDC_Settings {
 
 	/**
 	 * Get configured primary color.
+	 *
+	 * @return string
 	 */
 	public static function get_primary_color(): string {
 		$options = self::get_options();
@@ -135,6 +143,8 @@ class EPDC_Settings {
 
 	/**
 	 * Get configured primary text color.
+	 *
+	 * @return string
 	 */
 	public static function get_primary_text_color(): string {
 		$options = self::get_options();
@@ -144,6 +154,9 @@ class EPDC_Settings {
 
 	/**
 	 * Sanitize CSS selector setting.
+	 *
+	 * @param string $selector Raw selector.
+	 * @return string
 	 */
 	private static function sanitize_inquiry_field_selector( string $selector ): string {
 		$selector = trim( wp_strip_all_tags( $selector ) );
@@ -157,6 +170,10 @@ class EPDC_Settings {
 
 	/**
 	 * Sanitize hex colors with fallback.
+	 *
+	 * @param string $color Raw color.
+	 * @param string $fallback Fallback color.
+	 * @return string
 	 */
 	private static function sanitize_hex_color_with_fallback( string $color, string $fallback ): string {
 		$color = sanitize_hex_color( trim( $color ) );

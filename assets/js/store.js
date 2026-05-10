@@ -211,6 +211,7 @@ const { state, actions } = store( NAMESPACE, {
 actions.hydrateFromStorage();
 
 if ( 'undefined' !== typeof window ) {
+	// Sync widget state cleanup when inquiry autofill finishes on the target page.
 	window.addEventListener( INQUIRY_TRANSFER_EVENT, () => {
 		if ( 0 === state.selectedItems.length ) {
 			return;

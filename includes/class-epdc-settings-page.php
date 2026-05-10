@@ -100,6 +100,8 @@ class EPDC_Settings_Page {
 
 	/**
 	 * Render settings page.
+	 *
+	 * @return void
 	 */
 	public function render_settings_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -122,6 +124,8 @@ class EPDC_Settings_Page {
 
 	/**
 	 * Render inquiry page dropdown.
+	 *
+	 * @return void
 	 */
 	public function render_inquiry_page_field(): void {
 		$selected_page = EPDC_Settings::get_inquiry_page_id();
@@ -141,6 +145,8 @@ class EPDC_Settings_Page {
 
 	/**
 	 * Render inquiry field selector input.
+	 *
+	 * @return void
 	 */
 	public function render_inquiry_field_selector(): void {
 		$selector = EPDC_Settings::get_inquiry_field_selector();
@@ -159,6 +165,8 @@ class EPDC_Settings_Page {
 
 	/**
 	 * Render primary color input.
+	 *
+	 * @return void
 	 */
 	public function render_primary_color_field(): void {
 		$primary_color = EPDC_Settings::get_primary_color();
@@ -178,6 +186,8 @@ class EPDC_Settings_Page {
 
 	/**
 	 * Render primary text color input.
+	 *
+	 * @return void
 	 */
 	public function render_primary_text_color_field(): void {
 		$primary_text_color = EPDC_Settings::get_primary_text_color();

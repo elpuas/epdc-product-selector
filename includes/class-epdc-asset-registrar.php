@@ -25,6 +25,8 @@ class EPDC_Asset_Registrar {
 
 	/**
 	 * Register scaffold assets for future feature modules.
+	 *
+	 * @return void
 	 */
 	public function register_assets(): void {
 		if ( function_exists( 'wp_register_script_module' ) ) {
@@ -62,6 +64,8 @@ class EPDC_Asset_Registrar {
 
 	/**
 	 * Enqueue the Interactivity API store module on the frontend.
+	 *
+	 * @return void
 	 */
 	public function enqueue_store_module(): void {
 		if ( function_exists( 'wp_enqueue_script_module' ) ) {
@@ -74,6 +78,8 @@ class EPDC_Asset_Registrar {
 
 	/**
 	 * Enqueue frontend styles for block and floating widget.
+	 *
+	 * @return void
 	 */
 	public function enqueue_frontend_style(): void {
 		wp_enqueue_style( 'epdc-product-selector-frontend' );
@@ -81,6 +87,8 @@ class EPDC_Asset_Registrar {
 
 	/**
 	 * Inject global frontend CSS variables from plugin settings.
+	 *
+	 * @return void
 	 */
 	public function inject_frontend_design_tokens(): void {
 		if ( ! wp_style_is( 'epdc-product-selector-frontend', 'enqueued' ) ) {

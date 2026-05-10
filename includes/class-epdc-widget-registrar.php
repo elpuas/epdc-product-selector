@@ -22,6 +22,8 @@ class EPDC_Widget_Registrar {
 
 	/**
 	 * Render global floating inquiry widget.
+	 *
+	 * @return void
 	 */
 	public function render_widget(): void {
 		$toggle_label = esc_html__( 'Seleccionados', 'epdc-product-selector' );

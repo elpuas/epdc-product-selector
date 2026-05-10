@@ -22,6 +22,8 @@ class EPDC_Inquiry_Form_Integrator {
 
 	/**
 	 * Enqueue form integration scaffold script.
+	 *
+	 * @return void
 	 */
 	public function enqueue_form_integration_asset(): void {
 		wp_enqueue_script( 'epdc-product-selector-form' );

@@ -22,6 +22,8 @@ class EPDC_Frontend_Config {
 
 	/**
 	 * Expose plugin config to frontend JavaScript.
+	 *
+	 * @return void
 	 */
 	public function expose_config(): void {
 		if ( ! wp_script_is( 'epdc-product-selector-form', 'registered' ) ) {

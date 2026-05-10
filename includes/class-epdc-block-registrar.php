@@ -22,6 +22,8 @@ class EPDC_Block_Registrar {
 
 	/**
 	 * Register plugin dynamic blocks.
+	 *
+	 * @return void
 	 */
 	public function register_blocks(): void {
 		register_block_type( EPDC_PRODUCT_SELECTOR_BLOCK_PATH . 'product-selector' );

@@ -8,7 +8,6 @@
 		'string' === typeof config.fieldSelector && config.fieldSelector.trim()
 			? config.fieldSelector.trim()
 			: '.epdc-product-selection-field';
-	const FALLBACK_FIELD_SELECTOR = 'textarea[name="textarea-2"]';
 
 	const canUseStorage = () => {
 		try {
@@ -49,8 +48,8 @@
 			return;
 		}
 
-		const configuredField = document.querySelector( FORM_FIELD_SELECTOR );
-		const targetField = configuredField || document.querySelector( FALLBACK_FIELD_SELECTOR );
+		// Keep integration form-agnostic by relying on the configured selector only.
+		const targetField = document.querySelector( FORM_FIELD_SELECTOR );
 
 		if ( ! targetField ) {
 			return;
