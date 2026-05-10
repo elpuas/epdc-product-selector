@@ -80,6 +80,22 @@ class EPDC_Settings_Page {
 			self::PAGE_SLUG,
 			self::SECTION_ID
 		);
+
+		add_settings_field(
+			'epdc_primary_color',
+			esc_html__( 'Primary Color', 'epdc-product-selector' ),
+			[ $this, 'render_primary_color_field' ],
+			self::PAGE_SLUG,
+			self::SECTION_ID
+		);
+
+		add_settings_field(
+			'epdc_primary_text_color',
+			esc_html__( 'Primary Text Color', 'epdc-product-selector' ),
+			[ $this, 'render_primary_text_color_field' ],
+			self::PAGE_SLUG,
+			self::SECTION_ID
+		);
 	}
 
 	/**
@@ -92,7 +108,7 @@ class EPDC_Settings_Page {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'EPDC Product Selector', 'epdc-product-selector' ); ?></h1>
-			<p><?php echo esc_html__( 'Configure the inquiry destination page and target form field selector.', 'epdc-product-selector' ); ?></p>
+			<p><?php echo esc_html__( 'Configure inquiry behavior and shared UI styles.', 'epdc-product-selector' ); ?></p>
 			<form action="options.php" method="post">
 				<?php
 				settings_fields( 'epdc_product_selector_settings_group' );
@@ -138,6 +154,44 @@ class EPDC_Settings_Page {
 			placeholder=".epdc-product-selection-field"
 		/>
 		<p class="description"><?php echo esc_html__( 'CSS selector for the inquiry form field that will receive selected products.', 'epdc-product-selector' ); ?></p>
+		<?php
+	}
+
+	/**
+	 * Render primary color input.
+	 */
+	public function render_primary_color_field(): void {
+		$primary_color = EPDC_Settings::get_primary_color();
+		?>
+		<input
+			type="text"
+			id="epdc_primary_color"
+			name="<?php echo esc_attr( EPDC_Settings::OPTION_KEY ); ?>[primary_color]"
+			value="<?php echo esc_attr( $primary_color ); ?>"
+			class="regular-text"
+			placeholder="#d62828"
+			pattern="^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$"
+		/>
+		<p class="description"><?php echo esc_html__( 'Used by the selector button and floating widget action button.', 'epdc-product-selector' ); ?></p>
+		<?php
+	}
+
+	/**
+	 * Render primary text color input.
+	 */
+	public function render_primary_text_color_field(): void {
+		$primary_text_color = EPDC_Settings::get_primary_text_color();
+		?>
+		<input
+			type="text"
+			id="epdc_primary_text_color"
+			name="<?php echo esc_attr( EPDC_Settings::OPTION_KEY ); ?>[primary_text_color]"
+			value="<?php echo esc_attr( $primary_text_color ); ?>"
+			class="regular-text"
+			placeholder="#ffffff"
+			pattern="^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$"
+		/>
+		<p class="description"><?php echo esc_html__( 'Text color for controls that use the shared primary color.', 'epdc-product-selector' ); ?></p>
 		<?php
 	}
 }

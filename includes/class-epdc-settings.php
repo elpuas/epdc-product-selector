@@ -22,6 +22,16 @@ class EPDC_Settings {
 	public const DEFAULT_INQUIRY_FIELD_SELECTOR = '.epdc-product-selection-field';
 
 	/**
+	 * Default primary color.
+	 */
+	public const DEFAULT_PRIMARY_COLOR = '#d62828';
+
+	/**
+	 * Default primary text color.
+	 */
+	public const DEFAULT_PRIMARY_TEXT_COLOR = '#ffffff';
+
+	/**
 	 * Sanitize settings payload.
 	 *
 	 * @param mixed $input Raw option input.
@@ -31,6 +41,8 @@ class EPDC_Settings {
 		$sanitized = [
 			'inquiry_page_id'        => 0,
 			'inquiry_field_selector' => self::DEFAULT_INQUIRY_FIELD_SELECTOR,
+			'primary_color'          => self::DEFAULT_PRIMARY_COLOR,
+			'primary_text_color'     => self::DEFAULT_PRIMARY_TEXT_COLOR,
 		];
 
 		if ( ! is_array( $input ) ) {
@@ -43,6 +55,14 @@ class EPDC_Settings {
 
 		if ( isset( $input['inquiry_field_selector'] ) ) {
 			$sanitized['inquiry_field_selector'] = self::sanitize_inquiry_field_selector( (string) $input['inquiry_field_selector'] );
+		}
+
+		if ( isset( $input['primary_color'] ) ) {
+			$sanitized['primary_color'] = self::sanitize_hex_color_with_fallback( (string) $input['primary_color'], self::DEFAULT_PRIMARY_COLOR );
+		}
+
+		if ( isset( $input['primary_text_color'] ) ) {
+			$sanitized['primary_text_color'] = self::sanitize_hex_color_with_fallback( (string) $input['primary_text_color'], self::DEFAULT_PRIMARY_TEXT_COLOR );
 		}
 
 		return $sanitized;
@@ -65,6 +85,8 @@ class EPDC_Settings {
 			[
 				'inquiry_page_id'        => 0,
 				'inquiry_field_selector' => self::DEFAULT_INQUIRY_FIELD_SELECTOR,
+				'primary_color'          => self::DEFAULT_PRIMARY_COLOR,
+				'primary_text_color'     => self::DEFAULT_PRIMARY_TEXT_COLOR,
 			]
 		);
 	}
@@ -103,6 +125,24 @@ class EPDC_Settings {
 	}
 
 	/**
+	 * Get configured primary color.
+	 */
+	public static function get_primary_color(): string {
+		$options = self::get_options();
+
+		return self::sanitize_hex_color_with_fallback( (string) $options['primary_color'], self::DEFAULT_PRIMARY_COLOR );
+	}
+
+	/**
+	 * Get configured primary text color.
+	 */
+	public static function get_primary_text_color(): string {
+		$options = self::get_options();
+
+		return self::sanitize_hex_color_with_fallback( (string) $options['primary_text_color'], self::DEFAULT_PRIMARY_TEXT_COLOR );
+	}
+
+	/**
 	 * Sanitize CSS selector setting.
 	 */
 	private static function sanitize_inquiry_field_selector( string $selector ): string {
@@ -113,5 +153,18 @@ class EPDC_Settings {
 		}
 
 		return sanitize_text_field( $selector );
+	}
+
+	/**
+	 * Sanitize hex colors with fallback.
+	 */
+	private static function sanitize_hex_color_with_fallback( string $color, string $fallback ): string {
+		$color = sanitize_hex_color( trim( $color ) );
+
+		if ( null === $color ) {
+			return $fallback;
+		}
+
+		return $color;
 	}
 }
