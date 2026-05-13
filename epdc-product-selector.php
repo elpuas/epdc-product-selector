@@ -3,7 +3,7 @@
  * Plugin Name: EPDC Product Selector
  * Plugin URI:  https://github.com/elpuas/epdc-product-selector
  * Description: Product inquiry selection scaffold for catalog-based WordPress websites.
- * Version:     0.1.0
+ * Version:     1.0.1
  * Author:      ElPuas Digital Crafts
  * Text Domain: epdc-product-selector
  * Domain Path: /languages
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'EPDC_PRODUCT_SELECTOR_VERSION' ) ) {
-	define( 'EPDC_PRODUCT_SELECTOR_VERSION', '0.1.0' );
+	define( 'EPDC_PRODUCT_SELECTOR_VERSION', '1.0.1' );
 }
 
 if ( ! defined( 'EPDC_PRODUCT_SELECTOR_PATH' ) ) {

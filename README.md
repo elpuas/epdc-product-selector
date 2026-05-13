@@ -6,6 +6,15 @@ It lets visitors select products while browsing, keeps the selection synchronize
 
 This plugin is not a checkout or ecommerce cart.
 
+## Changelog
+
+### 1.0.1
+
+- Stabilized inquiry autofill timing for delayed Ninja Forms field rendering.
+- Improved inquiry transfer flow reliability and cleanup synchronization.
+- Added shared UI color settings support for consistent frontend controls.
+- Refined floating widget UX behaviors for selection and inquiry actions.
+
 ## Features
 
 - Dynamic `epdc/product-selector` block rendered server-side.

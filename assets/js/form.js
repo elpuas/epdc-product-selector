@@ -4,6 +4,8 @@
 	const config = window.EPDCProductSelectorConfig || {};
 	const STORAGE_KEY = 'epdc_product_selector_items';
 	const INQUIRY_TRANSFER_EVENT = 'epdcProductSelector:inquiryTransferComplete';
+	const MAX_FIELD_RETRY_ATTEMPTS = 20;
+	const FIELD_RETRY_INTERVAL_MS = 200;
 	const FORM_FIELD_SELECTOR =
 		'string' === typeof config.fieldSelector && config.fieldSelector.trim()
 			? config.fieldSelector.trim()
@@ -48,33 +50,48 @@
 			return;
 		}
 
-		// Keep integration form-agnostic by relying on the configured selector only.
-		const targetField = document.querySelector( FORM_FIELD_SELECTOR );
+		let retryAttempts = 0;
+		const retryTimer = window.setInterval( function () {
+			retryAttempts += 1;
 
-		if ( ! targetField ) {
-			return;
-		}
+			// Keep integration form-agnostic by relying on the configured selector only.
+			const targetField = document.querySelector( FORM_FIELD_SELECTOR );
 
-		targetField.value = payload;
+			if ( ! targetField ) {
+				if ( retryAttempts >= MAX_FIELD_RETRY_ATTEMPTS ) {
+					window.clearInterval( retryTimer );
+				}
 
-		try {
-			targetField.dispatchEvent( new Event( 'input', { bubbles: true } ) );
-		} catch ( error ) {
-			// Ignore event dispatch failures and continue cleanup.
-		}
+				return;
+			}
 
-		try {
-			targetField.dispatchEvent( new Event( 'change', { bubbles: true } ) );
-		} catch ( error ) {
-			// Ignore event dispatch failures and continue cleanup.
-		}
+			targetField.value = payload;
 
-		try {
-			window.localStorage.removeItem( STORAGE_KEY );
-		} catch ( error ) {
-			// Ignore cleanup failures in restricted browser contexts.
-		}
+			try {
+				targetField.dispatchEvent( new Event( 'input', { bubbles: true } ) );
+			} catch ( error ) {
+				// Ignore event dispatch failures and continue cleanup.
+			}
 
-		window.dispatchEvent( new CustomEvent( INQUIRY_TRANSFER_EVENT ) );
+			try {
+				targetField.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+			} catch ( error ) {
+				// Ignore event dispatch failures and continue cleanup.
+			}
+
+			try {
+				window.localStorage.removeItem( STORAGE_KEY );
+			} catch ( error ) {
+				// Ignore cleanup failures in restricted browser contexts.
+			}
+
+			window.dispatchEvent( new CustomEvent( INQUIRY_TRANSFER_EVENT ) );
+			window.clearInterval( retryTimer );
+		}, FIELD_RETRY_INTERVAL_MS );
+
+		// Extra guard in case of unusual timer behavior.
+		window.setTimeout( function () {
+			window.clearInterval( retryTimer );
+		}, MAX_FIELD_RETRY_ATTEMPTS * FIELD_RETRY_INTERVAL_MS + 50 );
 	} );
 } )();
